@@ -248,7 +248,10 @@ if kml_file and vendor_file:
             if val == "Inside NM":   return "background-color: #d4edda; color: #155724;"
             if val == "Outside NM":  return "background-color: #f8d7da; color: #721c24;"
             return "background-color: #fff3cd; color: #856404;"
-        return data.style.applymap(color_status, subset=["Status"])
+        try:
+            return data.style.map(color_status, subset=["Status"])
+        except AttributeError:
+            return data.style.applymap(color_status, subset=["Status"])
 
     with tab1:
         st.dataframe(styled_df(result_df[display_cols]), use_container_width=True, height=420)
